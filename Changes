@@ -1,0 +1,102 @@
+Revision history for Perl extension Net::Gopher.
+
+0.78 - POD changes in each module.
+
+0.77 - This version incorporates a wealth of new functionality into
+       Net::Gopher, including:
+
+       (a)
+           A  new  class,  Net::Gopher::Response,  is   used   to   encapsulate
+           requests. This class has accessor methods to modify  every  relevant
+           aspect of a Gopher/Gopher+ request, as well  as  named  constructors
+           you can import for each type of request.
+
+       (b)
+           The Net::Gopher connect() and disconnect()  methods  are  gone.  The
+           request() method now takes care of connecting and  disconnecting  by
+           itself.
+
+       (c)
+           The request() method now takes a Net::Gopher::Request object as  its
+           first argument. In addition, it  takes  the  parameters  "File"  and
+           "Callback," with the first specifying  a  file  where  the  response
+           content should be outputted to, and the other, a reference to a  sub
+           that will be called as the response is collected.
+
+       (d)
+           The request_url() method is gone.
+
+       (e)
+           Net::Gopher  now  has  the  Net::Gopher::Request  shortcut   methods
+           gopher(), gopher_plus(), item() and directory().
+
+       (f)
+           _get_buffer() is gone, replaced with _read() to do all reading,  and
+           a new function, _write(), used to do all writing.
+
+       (g)
+           The code to generate the request string from the parameters or  from
+           a URL has been moved to Net::Gopher::Request.
+
+       (h)
+           All   response   content-modifying   code   has   been   moved    to
+           Net::Gopher::Response,    which    means    _unescape    is    gone.
+           Net::Gopher::Response now has the  methods  _convert_newlines()  and
+           _clean_period_termination() to do that work.
+
+       (i)
+           Net::Gopher::Response  now  has  the   convenient   is_gopher_plus()
+           method and the is_text() method.
+
+       (j)
+           Added check_params()  routine  to  Net::Gopher::Utility.  This  will
+           ensure that param names are not misspelled, raising an error if  the
+           user supplies an invalid parameter name when calling a method.
+
+0.57 - Added new Net::Gopher::Response::Blocks class and moved all block  value
+       manipulation methods  to  there.  All  newlines  are  now  converted  to
+       standard Unix linefeed characters in the response content.
+
+0.47 - Removed  the  ADMIN,  ASK,  INFO,  and  VIEWS  block  parsing  from  the
+       _parse_blocks() method and  put  them  into  separate  as_admin_block(),
+       as_ask_block(),    as_info_block(),    and    as_views_block()   methods
+       respectively. Also, changed the key for  Gopher+  strings  in  the  hash
+       returned by as_menu() from 'gopher+' to 'gopher_plus'.
+
+0.43 - You can now specify a which item  you  want  for  directory_blocks()  by
+       its selector, hostname, port, etc., in addition to its number. Fixed the
+       typo in request_url() for the default scheme, and changed  request_url()
+       to die when you specify an invalid scheme.
+
+0.40 - The Net::Gopher::Response attribute information methods now  also  parse
+       Gopher+ +ASK blocks. The is_menu() method  is  now  far  more  accurate.
+       Also, request() now defaults to item type 1 (menu) if you don't  specify
+       the 'Type' named parameter.
+
+0.37 - Added  named  parameters  to  the  Net::Gopher  constructor: BufferSize,
+       GopherPlus, and Debug. Added  debugging,  which  causes  Net::Gopher  to
+       print out various diagnostic messages at different times. Also  added  a
+       corresponding  debug()  method.  The  POD  has  also  been substantially
+       improved. Also refractored request(), and improved the error checking.
+
+0.35 - Improved the error checking  in  request().  Also,  request()  now  more
+       efficiently handles Gopher+ responses  with  content  lengths (a  number
+       denoting the length of the response in bytes as opposed to -1 or -2).
+
+0.34 - The request() method now removes the period on a line by itself  in  the
+       response content if Type is supplied and isn't 0  or  1.  Also,  periods
+       escaped by adding and extra period (e.g., '..' instead of '.'), are  now
+       unescaped in the response content.
+
+0.33 - The request_url() now properly returns a Net::Gopher::response object if
+       if fails to connect to the server. Also fixed a typo in  the  POD  which
+       had (until now) gone unnoticed.
+
+0.32 - Added new is_menu() and is_blocks() methods.
+
+0.30 - Removed as_block() and replaced it with item_blocks(), and added the new
+       directory_blocks()  and  as_blocks()  methods.  Also   refractored   the
+       request_url() method.
+
+0.27 - Refractored  request()  and   removed   the  _get_gopher_response()  and
+       _get_gopher_plus_response() methods.
